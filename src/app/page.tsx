@@ -32,7 +32,7 @@ const links = [
   {
     title: "BPAC San Rafael",
     description: "Bicycle & Pedestrian Advisory Committee member",
-    href: "https://www.cityofsanrafael.org/bicycle-pedestrian-advisory-committee/",
+    href: "https://www.cityofsanrafael.org/bicycle-and-pedestrian-advisory-committee/",
     icon: "🚲",
   },
   {
