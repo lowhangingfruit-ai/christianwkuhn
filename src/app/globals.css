@@ -3,8 +3,8 @@
 :root {
   --background: #f5f0e8;
   --foreground: #1a1a1a;
-  --card-bg: rgba(237, 232, 223, 0.8);
-  --card-border: #d4cfc6;
+  --card-bg: rgba(255, 255, 255, 0.15);
+  --card-border: rgba(255, 255, 255, 0.3);
   --accent: #2a9d8f;
   --accent-hover: #21867a;
   --muted: #6b6560;
@@ -34,4 +34,12 @@ body > * {
 a {
   text-decoration: none;
   color: inherit;
+}
+
+.glass {
+  background: var(--card-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--card-border);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
 }

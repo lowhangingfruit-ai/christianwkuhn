@@ -160,12 +160,14 @@ export default function Home() {
         transition={{ duration: 0.6 }}
       >
         <Image
-          src="/photos/IMG_9565.JPG"
+          src="/photos/IMG_9567.JPG"
           alt="Christian W. Kuhn"
           fill
           sizes="100vw"
           className="object-cover"
           priority
+          quality={100}
+          unoptimized
         />
       </motion.div>
 
@@ -221,7 +223,7 @@ export default function Home() {
               href={link.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex items-center gap-4 rounded-2xl border border-card-border bg-card-bg px-5 py-4 transition-colors hover:border-accent hover:shadow-sm"
+              className="group flex items-center gap-4 glass rounded-2xl px-5 py-4 transition-colors hover:shadow-md hover:shadow-black/10"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-30px" }}
@@ -262,7 +264,7 @@ export default function Home() {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <div className="relative h-48 flex-1 overflow-hidden rounded-2xl border border-card-border sm:h-56">
+          <div className="relative aspect-[3/4] flex-1 overflow-hidden">
             <Image
               src="/photos/IMG_9581.JPG"
               alt="Christian W. Kuhn"
@@ -271,9 +273,9 @@ export default function Home() {
               className="object-cover"
             />
           </div>
-          <div className="relative h-48 flex-1 overflow-hidden rounded-2xl border border-card-border sm:h-56">
+          <div className="relative aspect-[3/4] flex-1 overflow-hidden">
             <Image
-              src="/photos/Tezza-4984.JPG"
+              src="/photos/IMG_1557.PNG"
               alt="Christian W. Kuhn"
               fill
               sizes="(max-width: 640px) 50vw, 330px"
@@ -284,7 +286,7 @@ export default function Home() {
 
         {/* Fun Facts */}
         <motion.section
-          className="mt-12 rounded-2xl border border-card-border bg-card-bg p-6"
+          className="mt-12 glass rounded-2xl p-6"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-50px" }}
@@ -325,7 +327,7 @@ export default function Home() {
           ].map((interest, i) => (
             <motion.span
               key={interest}
-              className="rounded-full border border-card-border bg-card-bg px-3 py-1 text-xs tracking-wide text-muted"
+              className="glass rounded-full px-3 py-1 text-xs tracking-wide text-muted"
               initial={{ opacity: 0, scale: 0.8 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
@@ -339,7 +341,7 @@ export default function Home() {
 
         {/* Contact */}
         <motion.section
-          className="mt-12 rounded-2xl border border-card-border bg-card-bg p-6"
+          className="mt-12 glass rounded-2xl p-6"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "100px" }}
@@ -365,7 +367,7 @@ export default function Home() {
 
         {/* Footer */}
         <motion.footer
-          className="mt-16 border-t border-card-border pt-6 text-center text-xs text-muted"
+          className="mt-16 border-t border-white/20 pt-6 text-center text-xs text-muted"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
