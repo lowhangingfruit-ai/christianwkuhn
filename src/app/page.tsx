@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { motion, useMotionValue, useSpring } from "motion/react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 const links = [
   {
@@ -108,15 +108,12 @@ const socials = [
   },
 ];
 
-const photos = ["IMG_9565.JPG", "IMG_9581.JPG", "Tezza-4984.JPG"];
-
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0 },
 };
 
 export default function Home() {
-  const [activePhoto, setActivePhoto] = useState(0);
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
   const smoothX = useSpring(mouseX, { stiffness: 100, damping: 30 });
@@ -131,12 +128,6 @@ export default function Home() {
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, [mouseX, mouseY]);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActivePhoto((prev) => (prev + 1) % photos.length);
-    }, 4000);
-    return () => clearInterval(interval);
-  }, []);
 
   return (
     <div className="relative min-h-screen font-mono">
@@ -161,7 +152,24 @@ export default function Home() {
           translateY: "-50%",
         }}
       />
-      <main className="relative z-10 mx-auto max-w-2xl px-6 py-16 sm:py-24">
+      {/* Hero - full width */}
+      <motion.div
+        className="relative z-10 h-80 w-full overflow-hidden sm:h-[28rem]"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.6 }}
+      >
+        <Image
+          src="/photos/IMG_9565.JPG"
+          alt="Christian W. Kuhn"
+          fill
+          sizes="100vw"
+          className="object-cover"
+          priority
+        />
+      </motion.div>
+
+      <main className="relative z-10 mx-auto max-w-2xl px-6 py-12 sm:py-16">
         {/* Header */}
         <motion.header
           className="mb-12 flex flex-col items-center text-center"
@@ -172,43 +180,6 @@ export default function Home() {
             visible: { transition: { staggerChildren: 0.12 } },
           }}
         >
-          <motion.div
-            className="relative mb-8 h-64 w-full overflow-hidden rounded-2xl border border-card-border sm:h-80"
-            variants={fadeUp}
-          >
-            {photos.map((photo, i) => (
-              <motion.div
-                key={photo}
-                className="absolute inset-0"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: activePhoto === i ? 1 : 0 }}
-                transition={{ duration: 1, ease: "easeInOut" }}
-              >
-                <Image
-                  src={`/photos/${photo}`}
-                  alt={`Christian W. Kuhn photo ${i + 1}`}
-                  fill
-                  sizes="(max-width: 640px) 100vw, 672px"
-                  className="object-cover"
-                  priority={i === 0}
-                />
-              </motion.div>
-            ))}
-            <div className="absolute bottom-3 left-1/2 flex -translate-x-1/2 gap-1.5">
-              {photos.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setActivePhoto(i)}
-                  className={`h-1.5 rounded-full transition-all ${
-                    activePhoto === i
-                      ? "w-6 bg-white"
-                      : "w-1.5 bg-white/50"
-                  }`}
-                  aria-label={`View photo ${i + 1}`}
-                />
-              ))}
-            </div>
-          </motion.div>
 
           <motion.h1
             className="text-2xl font-bold uppercase tracking-wider text-foreground sm:text-3xl"
@@ -282,6 +253,34 @@ export default function Home() {
             </motion.a>
           ))}
         </section>
+
+        {/* Photos */}
+        <motion.div
+          className="mt-12 flex gap-3"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+        >
+          <div className="relative h-48 flex-1 overflow-hidden rounded-2xl border border-card-border sm:h-56">
+            <Image
+              src="/photos/IMG_9581.JPG"
+              alt="Christian W. Kuhn"
+              fill
+              sizes="(max-width: 640px) 50vw, 330px"
+              className="object-cover"
+            />
+          </div>
+          <div className="relative h-48 flex-1 overflow-hidden rounded-2xl border border-card-border sm:h-56">
+            <Image
+              src="/photos/Tezza-4984.JPG"
+              alt="Christian W. Kuhn"
+              fill
+              sizes="(max-width: 640px) 50vw, 330px"
+              className="object-cover"
+            />
+          </div>
+        </motion.div>
 
         {/* Fun Facts */}
         <motion.section
