@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { motion, useMotionValue, useSpring } from "motion/react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const links = [
   {
@@ -108,12 +108,15 @@ const socials = [
   },
 ];
 
+const photos = ["IMG_9565.JPG", "IMG_9581.JPG", "Tezza-4984.JPG"];
+
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0 },
 };
 
 export default function Home() {
+  const [activePhoto, setActivePhoto] = useState(0);
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
   const smoothX = useSpring(mouseX, { stiffness: 100, damping: 30 });
@@ -128,14 +131,25 @@ export default function Home() {
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, [mouseX, mouseY]);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActivePhoto((prev) => (prev + 1) % photos.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <div className="relative min-h-screen bg-background font-mono">
-      <motion.div
-        className="pointer-events-none fixed inset-0 z-0"
-        style={{
-          background: useMotionValue(""),
-        }}
-      />
+    <div className="relative min-h-screen font-mono">
+      <div className="fixed inset-0 z-0">
+        <Image
+          src="/background.jpg"
+          alt=""
+          fill
+          className="object-cover"
+          priority
+          quality={90}
+        />
+      </div>
       <motion.div
         className="pointer-events-none fixed z-0 h-[600px] w-[600px] rounded-full opacity-20"
         style={{
@@ -158,27 +172,42 @@ export default function Home() {
             visible: { transition: { staggerChildren: 0.12 } },
           }}
         >
-          <motion.div className="mb-6 flex gap-3" variants={fadeUp}>
-            {["IMG_9565.JPG", "IMG_9581.JPG", "Tezza-4984.JPG"].map(
-              (photo, i) => (
-                <motion.div
-                  key={photo}
-                  className="relative h-20 w-20 overflow-hidden rounded-2xl border border-card-border sm:h-24 sm:w-24"
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: i * 0.1, duration: 0.4 }}
-                >
-                  <Image
-                    src={`/photos/${photo}`}
-                    alt={`Christian W. Kuhn photo ${i + 1}`}
-                    fill
-                    sizes="96px"
-                    className="object-cover"
-                    priority
-                  />
-                </motion.div>
-              )
-            )}
+          <motion.div
+            className="relative mb-8 h-64 w-full overflow-hidden rounded-2xl border border-card-border sm:h-80"
+            variants={fadeUp}
+          >
+            {photos.map((photo, i) => (
+              <motion.div
+                key={photo}
+                className="absolute inset-0"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: activePhoto === i ? 1 : 0 }}
+                transition={{ duration: 1, ease: "easeInOut" }}
+              >
+                <Image
+                  src={`/photos/${photo}`}
+                  alt={`Christian W. Kuhn photo ${i + 1}`}
+                  fill
+                  sizes="(max-width: 640px) 100vw, 672px"
+                  className="object-cover"
+                  priority={i === 0}
+                />
+              </motion.div>
+            ))}
+            <div className="absolute bottom-3 left-1/2 flex -translate-x-1/2 gap-1.5">
+              {photos.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => setActivePhoto(i)}
+                  className={`h-1.5 rounded-full transition-all ${
+                    activePhoto === i
+                      ? "w-6 bg-white"
+                      : "w-1.5 bg-white/50"
+                  }`}
+                  aria-label={`View photo ${i + 1}`}
+                />
+              ))}
+            </div>
           </motion.div>
 
           <motion.h1

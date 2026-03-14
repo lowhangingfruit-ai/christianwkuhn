@@ -22,11 +22,6 @@
 }
 
 body {
-  background: var(--background);
-  background-image: url("/background.jpg");
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
   color: var(--foreground);
   font-family: var(--font-mono), monospace;
 }
